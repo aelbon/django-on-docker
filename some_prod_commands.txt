@@ -1,0 +1,17 @@
+docker-compose -f docker-compose.prod.yml down -v
+docker-compose -f docker-compose.prod.yml up -d --build
+docker-compose -f docker-compose.prod.yml exec web python manage.py migrate --noinput
+docker-compose -f docker-compose.prod.yml exec web python manage.py collectstatic --no-input --clear
+
+# open psql
+docker-compose exec db psql --username=hello_django --dbname=hello_django_dev
+# list of databases
+\l 
+# connect to database "hello_django_dev" as user "hello_django"
+\c hello_django_dev
+# list of relations
+\dt 
+# quit
+\q 
+
+
